@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<!-- TODO: Precisa ajustar a responsivida para smartphones, ta ficando muito pequeno e não se ajustou a tela. -->
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+
+  <style>
+    
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', Tahoma, sans-serif;
+      background: linear-gradient(to bottom, #FFF6D6, #FFD6A5, #FFB4A2);
+      color: #5a4a42;
+    }
+
+    .container-main {
+      max-width: 600px;
+      margin: auto;
+      padding: 20px 15px 40px;
+      max-height: 100%;
+    }
+
+    .card {
+      background: white;
+      border-radius: 20px;
+      padding: 20px;
+      margin-bottom: 20px;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+      text-align: center;
+    }
+
+    h2 {
+      font-weight: bold;
+      color: #ff8fab;
+      margin-bottom: 10px;
+    }
+
+    h3 {
+      font-size: 1.1rem;
+      margin-bottom: 15px;
+    }
+
+    p {
+      margin: 5px 0;
+      font-size: 0.95rem;
+    }
+
+    iframe {
+      width: 100%;
+      height: 250px;
+      border-radius: 15px;
+      margin-top: 10px;
+    }
+
+    .form-container h2 {
+      font-size: 1.2rem;
+    }
+
+    form {
+      text-align: left;
+      margin-top: 15px;
+    }
+
+    label {
+      font-size: 0.9rem;
+      margin-top: 10px;
+    }
+
+    input[type="text"],
+    input[type="number"] {
+      width: 100%;
+      padding: 10px;
+      border-radius: 10px;
+      border: 1px solid #ddd;
+      margin-top: 5px;
+      margin-bottom: 10px;
+    }
+
+    .radio-group {
+      margin: 10px 0;
+    }
+
+    .radio-group label {
+      margin-right: 10px;
+    }
+
+    #submit-button {
+      width: 100%;
+      padding: 12px;
+      border: none;
+      border-radius: 15px;
+      background: linear-gradient(to right, #ffafcc, #ffc8dd);
+      color: #5a4a42;
+      font-weight: bold;
+      font-size: 1rem;
+      margin-top: 15px;
+      transition: 0.2s;
+    }
+
+    #submit-button:hover {
+      opacity: 0.9;
+    }
+
+    #output {
+      text-align: center;
+      margin-top: 10px;
+      font-size: 0.9rem;
+    }
+
+    .emoji {
+      font-size: 1.5rem;
+    }
+
+    @media (max-width: 480px) {
+      h2 {
+        font-size: 1.5rem;
+      }
+
+      h3 {
+        font-size: 1rem;
+      }
+    }
+  </style>
+  <title>Festa!!!</title>
+</head>
+
+<body>
+  <div class="container-main">
+
+    <div class="card">
+      <div class="emoji">🌞🌸</div>
+      <h2>Olá!</h2>
+
+      <h3>
+        Você foi convidado(a) para comemorar a <strong>Primeira Volta ao Sol</strong> da nossa princesa.
+      </h3>
+      <h2>🌞Elis Hikari🌞</h2>
+
+      <p><strong>Domingo, 12 de Abril de 2026. A partir dàs 13:00</strong></p>
+      <p>Rua Valdi José Bueno, 5-19. Tangarás, Bauru</p>
+
+      <iframe
+        src="https://www.google.com/maps/embed?pb=!4v1772495157891!6m8!1m7!1spbFIurvGDxtFJgiBSw2UVA!2m2!1d-22.32213387214562!2d-49.00955344050141!3f116.35650143503209!4f0.6017053789199167!5f0.7820865974627469"
+        allowfullscreen="" loading="lazy">
+      </iframe>
+    </div>
+
+    <div class="card form-container">
+      <h2>Confirme sua presença 💛</h2>
+
+      <form id="myForm">
+        <label for="name">Qual seu nome?</label>
+        <input id="name" name="name" type="text" placeholder="Seu nome" />
+
+        <div class="radio-group">
+          <p>Você vai?</p>
+          <input id="will-go-yes" name="willGo" type="radio" value="yes" checked />
+          <label for="will-go-yes">Sim, claro 🥳</label>
+
+          <input id="will-go-no" name="willGo" type="radio" value="no" />
+          <label for="will-go-no">Não vou poder 😞</label>
+        </div>
+
+        <label for="extras">Quantas pessoas vão com você?</label>
+        <input id="extras" name="extras" type="number" placeholder="Ex: 2" />
+
+        <input onclick="getValuesFromForm(this.parentNode)" type="button" value="Confirmar presença"
+          id="submit-button" />
+      </form>
+
+      <div id="output"></div>
+    </div>
+
+  </div>
+</body>
+<script>
+  function getValuesFromForm(form) {
+    document.getElementById('output').innerHTML = 'Processando...';
+    // Call the server-side function and pass the form object
+    // 'withSuccessHandler' is optional but good for feedback
+    google.script.run
+      .withSuccessHandler(onSuccess)
+      .onSubmit(form);
+  }
+
+  function onSuccess(result) {
+    document.getElementById('output').innerHTML = '<p style="color:green">Resposta confirmada :)</p>';
+    // Optional: Clear the form fields after success
+    document.getElementById('myForm').reset();
+  }
+</script>
+
+</html>
